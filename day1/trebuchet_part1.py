@@ -17,4 +17,3 @@ with open("data.txt", mode="r", encoding="utf-8") as f:
         sum += i*10 + j
 
 print(sum) 
-
