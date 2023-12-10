@@ -15,6 +15,12 @@ class Converter:
         else:
             return num, False
 
+    def back(self, num):
+        if self.conv_to <= num < self.conv_to + self.width:
+            return num + self.conv_from - self.conv_to, True
+        else:
+            return num, False
+
 
 file_lines = list()
 with open("data.txt", "r", encoding="utf-8") as f:
@@ -44,6 +50,7 @@ for line in file_lines:
         vals = line.split()
         new_key = vals[0]
     elif line == "" and len(conv_list) > 0:
+        conv_list.sort(key=lambda x: x.conv_to)
         conversion_maps[new_key] = conv_list.copy()
         conv_list.clear()
     else:
@@ -56,18 +63,44 @@ for line in file_lines:
         except Exception:
             continue
 
-for i in range(0, len(temp_seeds), 2):
-    for j in range(temp_seeds[i], temp_seeds[i + 1] + temp_seeds[i]):
-        seeds.append(j)
-conversion_maps[new_key] = conv_list.copy()
+conv_list.sort(key=lambda x: x.conv_to)
+locations = conv_list
 
-for i, _ in enumerate(seeds):
-    for key, converter_list in conversion_maps.items():
-        for converter in converter_list:
-            seeds[i], converted = converter.convert(seeds[i])
-            if converted:
+min_val = 0
+found = False
+num = -1
+
+for loc in locations:
+    for num in range(min_val, loc.conv_to + loc.width):
+        conv_num, _ = loc.back(num)
+        for key, converter_list in reversed(conversion_maps.items()):
+            for converter in converter_list:
+                conv_num, converted = converter.back(conv_num)
+                if converted:
+                    break
+        for i in range(0, len(temp_seeds), 2):
+            if temp_seeds[i] <= conv_num < temp_seeds[i] + temp_seeds[i + 1]:
+                found = True
                 break
+        if found:
+            break
+    if found:
+        print(num)
+        break
 
-print(min(seeds))
+
+# for i in range(0, len(temp_seeds), 2):
+#     for j in range(temp_seeds[i], temp_seeds[i + 1] + temp_seeds[i]):
+#         seeds.append(j)
+# conversion_maps[new_key] = conv_list.copy()
+#
+# for i, _ in enumerate(seeds):
+#     for key, converter_list in conversion_maps.items():
+#         for converter in converter_list:
+#             seeds[i], converted = converter.convert(seeds[i])
+#             if converted:
+#                 break
+#
+# print(min(seeds))
 # pprint.pprint(conversion_maps)
 # pprint.pprint(file_lines)
