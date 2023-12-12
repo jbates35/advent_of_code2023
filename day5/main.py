@@ -35,6 +35,7 @@ conversion_maps = dict()
 new_key = ""
 conv_list = list()
 
+min_val = 9999999999999999
 
 for line in file_lines:
     if "seeds" in line:
@@ -58,14 +59,17 @@ for line in file_lines:
             conv_end = int(vals[0])
             conv_start = int(vals[1])
             width = int(vals[2])
+
+            if conv_end < min_val:
+                min_val = conv_end
+
             conv_list.append(Converter(conv_end, conv_start, width))
         except Exception:
             continue
 
 conv_list.sort(key=lambda x: x.conv_to)
 locations = conv_list
-
-min_val = 0
+print(min_val)
 found = False
 num = -1
 
