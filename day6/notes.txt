@@ -1,0 +1,24 @@
+v*t = d
+
+time 7, distance 9
+
+tc = charging time
+tr = race time
+
+v = tc
+tr = t - tc
+
+
+Notes: We can iterate 
+
+
+t_c = 0
+velocity = 0
+time = 7
+
+
+charge = 1
+
+charge = 2
+7 - 2 = 5
+5 * 2 = 10
