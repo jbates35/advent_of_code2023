@@ -1,0 +1,8 @@
+notes. should create a hash here
+
+rank can be digit 10,
+the numbers of each card can be digits 9,8,7,6
+
+the bid can be digits 5-1
+
+then after sorting, can then find the sum of the array index multiplied the bid
